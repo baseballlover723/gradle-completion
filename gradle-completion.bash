@@ -131,8 +131,15 @@ __gradle-long-options() {
 --warning-mode          - Set types of warnings to log (all summary none)
 --watch-fs              - Gradle watches filesystem for incremental builds
 --write-locks           - Persists dependency resolution for locked configurations"
-
-    COMPREPLY=( $(compgen -W "$args" -- "$cur") )
+    local -a long_options=()
+    for option_line in ${args}; do
+      if [[ "$option_line" =~ ^(--[[:alpha:][:alnum:][:punct:]]*) ]]; then
+        long_option_name="${BASH_REMATCH[1]}"
+        long_options+=("$long_option_name")
+      fi
+    done
+    COMPREPLY=( $(compgen -W "${long_options[*]}" -- "$cur") )
+#    COMPREPLY=( $(compgen -W "$args" -- "$cur") )
 }
 
 __gradle-properties() {
@@ -153,7 +160,15 @@ __gradle-properties() {
 -Dorg.gradle.unsafe.watch-fs=     - Set true to enable Gradle file watcher
 -Dorg.gradle.warning.mode=        - Set types of warnings to log (all summary none)
 -Dorg.gradle.workers.max=         - Set the number of workers Gradle is allowed to use"
-    COMPREPLY=( $(compgen -W "$args" -- "$cur") )
+    local -a property_options=()
+    for property_line in ${args}; do
+      if [[ "$property_line" =~ ^(-D[[:alpha:][:alnum:][:punct:]]*=) ]]; then
+        property_name="${BASH_REMATCH[1]}"
+        property_options+=("$property_name")
+      fi
+    done
+    COMPREPLY=( $(compgen -W "${property_options[*]}" -- "$cur") )
+#    COMPREPLY=( $(compgen -W "$args" -- "$cur") )
     return 0
 }
 
@@ -182,7 +197,15 @@ __gradle-short-options() {
 -I                      - Specifies an initialization script
 -P                      - Sets a project property of the root project
 -S                      - Print out the full (very verbose) stacktrace"
-    COMPREPLY=( $(compgen -W "$args" -- "$cur") )
+    local -a short_options=()
+    for option_line in ${args}; do
+      if [[ "$option_line" =~ ^(-[[:alpha:][:alnum:][:punct:]]) ]]; then
+        short_option_name="${BASH_REMATCH[1]}"
+        short_options+=("$short_option_name")
+      fi
+    done
+    COMPREPLY=( $(compgen -W "${short_options[*]}" -- "$cur") )
+#    COMPREPLY=( $(compgen -W "$args" -- "$cur") )
 }
 
 __gradle-tasks() {
