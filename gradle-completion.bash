@@ -292,7 +292,7 @@ __gradle-generate-tasks-cache() {
         if [[ "$output_line" =~ ^([[:alpha:]][[:alnum:][:punct:]]*)([[:space:]]-[[:space:]]([[:print:]]*))? ]]; then
             task_name="${BASH_REMATCH[1]}"
             task_description="${BASH_REMATCH[3]}"
-            gradle_all_tasks+=( "$task_name  - $task_description" )
+            gradle_all_tasks+=( "$task_name" )
             # Completion for subproject tasks with ':' prefix
             if [[ "$task_name" =~ ^([[:alnum:][:punct:]]+):([[:alnum:]]+) ]]; then
                 gradle_all_tasks+=( ":$task_name  - $task_description" )
